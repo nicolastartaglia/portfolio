@@ -50,7 +50,7 @@
       <li class="sidebar-nav-item">
         <a class="js-scroll-trigger" href="#monoffre">Mon offre de services</a>
       </li>
-      
+
     </ul>
   </nav>
 
@@ -314,11 +314,38 @@
 
 
   <!-- Call to Action -->
-  <section class="content-section bg-primary text-white">
+  <section class="content-section bg-primary">
     <div class="container text-center">
       <h2 class="mb-4">Un petit jeu pour se distraire</h2>
-      <a href="#!" class="btn btn-xl btn-light mr-4">Cliquez pour commencer</a>
 
+
+    
+
+      <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jeu" onclick="demarrerPartie()">
+  Cliquez pour commencer
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="jeu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="jeu">Petit jeu de devinette</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Vous devez deviner le nombre que j'ai choisi entre 1 et 100. Attention, vous n'avez droit qu'à 10 essais. A vous de jouer:</p>
+        <input type="text" name="reponse" id="reponse">
+        <p id="message"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" onclick="devinerNombreChoisi()">Envoyer ma réponse</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   </section>
 
@@ -368,7 +395,48 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/stylish-portfolio.min.js"></script>
+  <script>
 
+  var suite = [];
+  var nombreADeviner;
+  var nbIterations;
+  for (let i = 1; i <= 100 ; i++){
+    suite.push(i);
+  }
+
+  function nombreChoisi() {
+    return suite[Math.floor(Math.random() * 100)]; 
+  }
+
+  function demarrerPartie() {
+    nbIterations = 10;
+    nombreADeviner = nombreChoisi();
+  }
+
+  function devinerNombreChoisi() {
+    var reponse = document.getElementById("reponse").value;
+    if (nbIterations >= 1) {
+      console.log(parseInt(reponse));
+      if (!isNaN(parseInt(reponse))) {      
+        if (parseInt(reponse) === nombreADeviner ) {
+          document.getElementById("message").innerHTML = "Bravo! Vous avez trouvé le bon numéro";
+          nbIterations = 0;
+        } else if (nbIterations !== 0){
+          nbIterations -= 1;
+          document.getElementById("message").innerHTML = "Désolé! Ce nombre n'est pas celui qui a été choisi. Reste "+nbIterations+" essai(s).";
+        } else {
+          document.getElementById("message").innerHTML = "Jeu terminé. Vous pouvez fermer la fenêtre";
+        }
+      } else {
+        document.getElementById("message").innerHTML = "Veuillez saisir un nombre entre 1 et 100.";
+      }
+    } else {
+      document.getElementById("message").innerHTML = "Jeu terminé. Vous pouvez fermer la fenêtre";
+    }
+  }
+
+
+</script>
 
 </body>
 
